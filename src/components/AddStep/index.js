@@ -11,6 +11,8 @@ const AddStep = () => {
   const handleChange = (event) => {
     setName(event.target.value);
   };
+
+  const isValid = name.length;
   return (
     <Box
       component="form"
@@ -29,6 +31,7 @@ const AddStep = () => {
       />
       <Button
         variant="contained"
+        disabled={!isValid}
         onClick={() => {
           dispatch({ type: ADD_STEP, payload: name });
           setName('');

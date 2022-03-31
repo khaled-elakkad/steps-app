@@ -3,23 +3,48 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 import AllSteps from '../components/AllSteps';
 import { StepContext } from '../providers/StepProvider';
-import { CLEAR_SELECTED_STEP } from '../providers/StepProvider/action-types';
-import { drawerWidth } from './constants';
+import { SET_MODE } from '../providers/StepProvider/action-types';
+import { drawerWidth, mainPanelModes } from './constants';
 
-const Content = () => {
+const Content = ({ handleDrawerToggle }) => {
   const { dispatch } = useContext(StepContext);
   return (
     <div>
       <Toolbar>
+        <IconButton
+          aria-label="open drawer"
+          edge="start"
+          onClick={handleDrawerToggle}
+          sx={{ mr: 2, display: { sm: 'none' } }}
+        >
+          <MenuIcon />
+        </IconButton>
         <Button
           variant="outlined"
-          onClick={() => dispatch({ type: CLEAR_SELECTED_STEP })}
+          onClick={() =>
+            dispatch({
+              type: SET_MODE,
+              payload: { mode: mainPanelModes.addMode },
+            })
+          }
         >
           ADD A STEP
         </Button>
-        <Button variant="contained">DEBUG</Button>
+        <Button
+          variant="contained"
+          onClick={() =>
+            dispatch({
+              type: SET_MODE,
+              payload: { mode: mainPanelModes.jsonMode },
+            })
+          }
+        >
+          DEBUG
+        </Button>
       </Toolbar>
       <AllSteps />
     </div>
@@ -52,7 +77,7 @@ const SidePanel = ({ mobileOpen, handleDrawerToggle }) => {
           },
         }}
       >
-        <Content />
+        <Content handleDrawerToggle={handleDrawerToggle} />
       </Drawer>
       <Drawer
         variant="permanent"

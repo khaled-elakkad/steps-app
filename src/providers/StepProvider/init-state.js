@@ -1,3 +1,5 @@
+import { mainPanelModes } from '../../layout/constants';
+
 const stepsState = {
   steps: [
     {
@@ -27,6 +29,7 @@ const stepsState = {
     },
   ],
   currentStep: {},
+  mode: mainPanelModes.addMode,
 };
 
 export default stepsState;

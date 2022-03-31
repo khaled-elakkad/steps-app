@@ -1,5 +1,6 @@
-import * as actions from './action-types';
 import { v4 as uuidv4 } from 'uuid';
+import * as actions from './action-types';
+import { mainPanelModes } from '../../layout/constants';
 
 const reducer = (state, { type, payload }) => {
   switch (type) {
@@ -7,6 +8,7 @@ const reducer = (state, { type, payload }) => {
       return {
         ...state,
         currentStep: payload,
+        mode: mainPanelModes.editMode,
       };
 
     case actions.CLEAR_SELECTED_STEP:
@@ -21,6 +23,7 @@ const reducer = (state, { type, payload }) => {
         { Id: uuidv4(), Name: payload, StepOrder: state.steps.length },
       ];
       return {
+        ...state,
         currentStep: {},
         steps: stepsAfterAdd,
       };
@@ -45,13 +48,32 @@ const reducer = (state, { type, payload }) => {
         ...stepsWithUpdatedIndex,
       ];
       return {
+        ...state,
+        mode: mainPanelModes.addMode,
         currentStep: {},
         steps: stepsAfterRemove,
       };
 
     case actions.REORDER_STEP:
+      const { StepOrder, draggedStepOrder } = payload;
+      let stepsClone = [...state.steps];
+      // remove dragged element from old place
+      stepsClone.splice(draggedStepOrder, 1);
+      // add dragged element to new place
+      stepsClone.splice(StepOrder, 0, state.steps[draggedStepOrder]);
+      // update step order
+      stepsClone = stepsClone.map((step, idx) => ({ ...step, StepOrder: idx }));
+
       return {
         ...state,
+        steps: stepsClone,
+      };
+
+    case actions.SET_MODE:
+      return {
+        ...state,
+        mode: payload.mode,
+        currentStep: {},
       };
 
     default:

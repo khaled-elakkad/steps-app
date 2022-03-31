@@ -3,14 +3,14 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import AddStep from '../components/AddStep';
 import EditStep from '../components/EditStep';
-import { drawerWidth } from './constants';
+import JSONDisplay from '../components/JSONDisplay';
+import { drawerWidth, mainPanelModes } from './constants';
 import { StepContext } from '../providers/StepProvider';
 
 const MainPanel = () => {
   const { variablesState } = useContext(StepContext);
-  const { currentStep } = variablesState;
+  const { currentStep, mode } = variablesState;
 
-  const editMode = useMemo(() => !!currentStep.Id, [currentStep]);
   return (
     <Box
       component="main"
@@ -20,7 +20,13 @@ const MainPanel = () => {
       }}
     >
       <Toolbar />
-      {editMode ? <EditStep {...currentStep} /> : <AddStep />}
+      {mode === mainPanelModes.addMode ? (
+        <AddStep />
+      ) : mode === mainPanelModes.editMode ? (
+        <EditStep {...currentStep} />
+      ) : (
+        <JSONDisplay />
+      )}
     </Box>
   );
 };

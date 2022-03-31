@@ -21,6 +21,8 @@ const EditStep = ({ Id, Name, StepOrder }) => {
     setStepName(event.target.value);
   };
 
+  const isValid = stepName.length;
+
   return (
     <Box
       component="form"
@@ -40,8 +42,12 @@ const EditStep = ({ Id, Name, StepOrder }) => {
       />
       <Button
         variant="contained"
+        disabled={!isValid}
         onClick={() =>
-          dispatch({ type: EDIT_STEP, payload: { Id, stepName, StepOrder } })
+          dispatch({
+            type: EDIT_STEP,
+            payload: { Id, Name: stepName, StepOrder },
+          })
         }
       >
         Edit
@@ -49,7 +55,10 @@ const EditStep = ({ Id, Name, StepOrder }) => {
       <Button
         color="error"
         onClick={() =>
-          dispatch({ type: REMOVE_STEP, payload: { Id, stepName, StepOrder } })
+          dispatch({
+            type: REMOVE_STEP,
+            payload: { Id, Name: stepName, StepOrder },
+          })
         }
       >
         <DeleteIcon />

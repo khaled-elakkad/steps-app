@@ -6,7 +6,10 @@ import ListItemText from '@mui/material/ListItemText';
 import Radio from '@mui/material/Radio';
 import { useDrag, useDrop } from 'react-dnd';
 import { StepContext } from '../../providers/StepProvider';
-import { SELECT_STEP } from '../../providers/StepProvider/action-types';
+import {
+  REORDER_STEP,
+  SELECT_STEP,
+} from '../../providers/StepProvider/action-types';
 import { ItemTypes } from '../../ItemTypes';
 
 const style = {
@@ -17,39 +20,37 @@ const style = {
   cursor: 'move',
 };
 
-function Step({ Id, Name, StepOrder, moveCard, findCard }) {
+function Step({ Id, Name, StepOrder }) {
   const { variablesState, dispatch } = useContext(StepContext);
-  const originalIndex = findCard(Id).index;
 
   const [{ isDragging }, drag] = useDrag(
     () => ({
       type: ItemTypes.CARD,
-      item: { Id, originalIndex },
+      item: { Id, StepOrder },
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
       end: (item, monitor) => {
-        const { Id: droppedId, originalIndex } = item;
+        const { Id: droppedId, StepOrder: droppedStepOrder } = item;
         const didDrop = monitor.didDrop();
-        if (!didDrop) {
-          moveCard(droppedId, originalIndex);
-        }
       },
     }),
-    [Id, originalIndex, moveCard]
+    [Id, StepOrder, dispatch]
   );
 
   const [, drop] = useDrop(
     () => ({
       accept: ItemTypes.CARD,
-      hover({ Id: draggedId }) {
+      hover({ Id: draggedId, StepOrder: draggedStepOrder }) {
         if (draggedId !== Id) {
-          const { index: overIndex } = findCard(Id);
-          moveCard(draggedId, overIndex);
+          dispatch({
+            type: REORDER_STEP,
+            payload: { StepOrder, draggedStepOrder },
+          });
         }
       },
     }),
-    [findCard, moveCard]
+    [StepOrder, dispatch]
   );
 
   const opacity = isDragging ? 0 : 1;

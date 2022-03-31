@@ -6,8 +6,6 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 
-import Alert from '@mui/material/Alert';
-
 import SidePanel from './SidePanel';
 import MainPanel from './MainPanel';
 import { drawerWidth } from './constants';
@@ -39,11 +37,6 @@ const Layout = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Alert severity="info" sx={{ width: '100%' }}>
-            Define the workflow that will be proposed by default for this type
-            of contract. The workflow can be freely modified by the creator of
-            the document afterwards
-          </Alert>
         </Toolbar>
       </AppBar>
       <SidePanel
