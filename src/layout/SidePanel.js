@@ -2,13 +2,13 @@ import { useContext } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import AllSteps from '../components/AllSteps';
 import { StepContext } from '../providers/StepProvider';
 import { SET_MODE } from '../providers/StepProvider/action-types';
 import { drawerWidth, mainPanelModes } from './constants';
+import ActionButton from '../components/custom/ActionButton';
 
 const Content = ({ handleDrawerToggle }) => {
   const { dispatch } = useContext(StepContext);
@@ -23,7 +23,7 @@ const Content = ({ handleDrawerToggle }) => {
         >
           <MenuIcon />
         </IconButton>
-        <Button
+        <ActionButton
           variant="outlined"
           onClick={() =>
             dispatch({
@@ -33,8 +33,8 @@ const Content = ({ handleDrawerToggle }) => {
           }
         >
           ADD A STEP
-        </Button>
-        <Button
+        </ActionButton>
+        <ActionButton
           variant="contained"
           onClick={() =>
             dispatch({
@@ -44,7 +44,7 @@ const Content = ({ handleDrawerToggle }) => {
           }
         >
           DEBUG
-        </Button>
+        </ActionButton>
       </Toolbar>
       <AllSteps />
     </div>

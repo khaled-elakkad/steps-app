@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import ActionButton from '../custom/ActionButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { StepContext } from '../../providers/StepProvider';
 import {
@@ -40,8 +40,8 @@ const EditStep = ({ Id, Name, StepOrder }) => {
         value={stepName}
         onChange={handleChange}
       />
-      <Button
-        variant="contained"
+      <ActionButton
+        variant="outlined"
         disabled={!isValid}
         onClick={() =>
           dispatch({
@@ -51,8 +51,8 @@ const EditStep = ({ Id, Name, StepOrder }) => {
         }
       >
         Edit
-      </Button>
-      <Button
+      </ActionButton>
+      <ActionButton
         color="error"
         onClick={() =>
           dispatch({
@@ -63,7 +63,7 @@ const EditStep = ({ Id, Name, StepOrder }) => {
       >
         <DeleteIcon />
         Delete Step
-      </Button>
+      </ActionButton>
     </Box>
   );
 };

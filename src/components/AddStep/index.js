@@ -1,9 +1,12 @@
 import { useState, useContext } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import ActionButton from '../custom/ActionButton';
 import { StepContext } from '../../providers/StepProvider';
 import { ADD_STEP } from '../../providers/StepProvider/action-types';
+
+import Input from '@mui/material/Input';
 
 const AddStep = () => {
   const { dispatch } = useContext(StepContext);
@@ -14,23 +17,26 @@ const AddStep = () => {
 
   const isValid = name.length;
   return (
-    <Box
-      component="form"
-      sx={{
-        '& > :not(style)': { m: 1, width: '25ch' },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <TextField
-        id="step-name"
-        label="Step name"
-        variant="filled"
-        value={name}
-        onChange={handleChange}
-      />
-      <Button
-        variant="contained"
+    <Box>
+      <div style={{ display: 'flex' }}>
+        <Typography>Step name</Typography>
+        <TextField
+          sx={{
+            '&.Mui-focused': {
+              borderBottomColor: 'green',
+            },
+          }}
+          id="step-name"
+          // label="Step name"
+          variant="filled"
+          size="small"
+          value={name}
+          onChange={handleChange}
+        />
+      </div>
+
+      <ActionButton
+        variant="outlined"
         disabled={!isValid}
         onClick={() => {
           dispatch({ type: ADD_STEP, payload: name });
@@ -38,10 +44,14 @@ const AddStep = () => {
         }}
       >
         Add Step
-      </Button>
-      <Button variant="outlined" color="error" onClick={() => setName('')}>
+      </ActionButton>
+      <ActionButton
+        variant="contained"
+        color="error"
+        onClick={() => setName('')}
+      >
         Reset
-      </Button>
+      </ActionButton>
     </Box>
   );
 };
