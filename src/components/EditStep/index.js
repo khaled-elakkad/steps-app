@@ -1,13 +1,14 @@
 import { useState, useEffect, useContext, useCallback, useMemo } from 'react';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
+import TextInput from '../TextInput';
 import { StepContext } from '../../providers/StepProvider';
 import {
   EDIT_STEP,
   REMOVE_STEP,
 } from '../../providers/StepProvider/action-types';
 import { FormContainer, LeftSide, RightSide } from '../common';
+import { DeleteButton } from './editStep.styles';
 
 const EditStep = ({ Id, Name, StepOrder }) => {
   const { dispatch } = useContext(StepContext);
@@ -45,19 +46,17 @@ const EditStep = ({ Id, Name, StepOrder }) => {
   return (
     <FormContainer>
       <LeftSide>
-        <TextField
-          id="step-name"
+        <TextInput
           label="Step name"
-          variant="filled"
-          value={stepName}
-          onChange={handleChange}
+          name={stepName}
+          handleChange={handleChange}
         />
       </LeftSide>
       <RightSide>
-        <Button color="error" onClick={onDeleteClick}>
+        <DeleteButton color="error" onClick={onDeleteClick}>
           <DeleteIcon />
           Delete Step
-        </Button>
+        </DeleteButton>
         <Button variant="outlined" disabled={!isValid} onClick={onEditClick}>
           Edit
         </Button>

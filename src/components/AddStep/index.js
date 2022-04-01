@@ -1,7 +1,6 @@
 import { useState, useContext, useCallback } from 'react';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import TextInput from '../TextInput';
 import { StepContext } from '../../providers/StepProvider';
 import { ADD_STEP } from '../../providers/StepProvider/action-types';
 import { FormContainer, LeftSide, RightSide } from '../common';
@@ -27,22 +26,7 @@ const AddStep = () => {
   return (
     <FormContainer>
       <LeftSide>
-        <div style={{ display: 'flex' }}>
-          <Typography>Step name</Typography>
-          <TextField
-            sx={{
-              '&.Mui-focused': {
-                borderBottomColor: 'green',
-              },
-            }}
-            id="step-name"
-            // label="Step name"
-            variant="filled"
-            size="small"
-            value={name}
-            onChange={handleChange}
-          />
-        </div>
+        <TextInput label="Step name" name={name} handleChange={handleChange} />
       </LeftSide>
       <RightSide>
         <Button
