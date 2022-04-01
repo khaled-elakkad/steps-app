@@ -1,70 +1,69 @@
-# Getting Started with Create React App
+# Steps App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This a web app that provides basic workflow management of a contract creation steps.
+The most prominent components in the app:
 
-## Available Scripts
+- **Side Panel:** Contains buttons for adding a new step and generating a JSON showing all the step data in the state in addition to all the steps listed in order with the ability to reorder them and select any of them for editing or deleting.
 
-In the project directory, you can run:
+- **Main Panel:** Displays either the steps JSON, an edit/delete form for a selected step or an add form for a new step.
 
-### `npm start`
+## Running the Web App
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+To run and use the app:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- clone the repo with `git clone git@github.com:khaled-elakkad/steps-app.git`
+- navigate into the project directory with `cd steps-app`
+- install all project dependencies with `npm install`
+- start the development server with `npm start`
 
-### `npm test`
+## What You're Getting
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+    src
+    ├── App.css # Styles for the app.
+    ├── App.js # The root of the app. Encapsulates the app with the Material UI theme, the react-dnd provider as well as the React context provider that manages the state.
+    ├── DefaultTheme.js # The MaterialUI theme with few customizations.
+    ├── ItemTypes.js # A Card type that assists in the react-dnd.
+    |
+    ├── providers
+    |   ├── StepProvider # Flux like state management using React context and useReducer
+    |   └── MyBooks
+    |
+    ├── components # contains the child componets of the main components
+    |   ├── AddStep
+    |   ├── AllSteps
+    │   ├── BurgerButton
+    |   ├── common
+    |   ├── EditStep
+    |   ├── JSONDisplay
+    |   ├── Step
+    |   ├── StepsToolbar
+    |   └── TextInput
+    |
+    ├── layout # The big components in the app
+    │   ├── AppBar
+    │   ├── MainPanel
+    │   └── SidePanel
+```
 
-### `npm run build`
+## State Management
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+No external libraries were used for state management. What was used was a Flux like state management using React context and useReducer that contains details about the what the MainPanel is displaying, the steps array and the currently selected step.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Create React App
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). You can find more information on how to perform common tasks [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
-### `npm run eject`
+## Improvements
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Further enhancement can be done to the drag and drop component and overall look and feel of the app as well as the responsiveness.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Credits
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Packages and libraries used in the app.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- [`mui`](https://mui.com/) for UI components, styles and theme.
 
-## Learn More
+- [`react-dnd`](https://react-dnd.github.io/react-dnd) for the drag and drop steps reorder feature.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [`uuid`](https://github.com/uuidjs/uuid) for generating new step IDs.
