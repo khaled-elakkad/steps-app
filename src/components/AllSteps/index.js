@@ -1,9 +1,9 @@
 import { memo, useContext } from 'react';
 import { useDrop } from 'react-dnd';
-import List from '@mui/material/List';
 import Step from '../Step';
 import { ItemTypes } from '../../ItemTypes';
 import { StepContext } from '../../providers/StepProvider';
+import { AllStepsContainer } from './allSteps.style';
 
 const AllSteps = memo(function () {
   const { variablesState } = useContext(StepContext);
@@ -11,7 +11,7 @@ const AllSteps = memo(function () {
   const [, drop] = useDrop(() => ({ accept: ItemTypes.CARD }));
 
   return (
-    <List ref={drop}>
+    <AllStepsContainer ref={drop}>
       {variablesState.steps.map((step) => (
         <Step
           key={step.Id}
@@ -20,7 +20,7 @@ const AllSteps = memo(function () {
           StepOrder={step.StepOrder}
         />
       ))}
-    </List>
+    </AllStepsContainer>
   );
 });
 

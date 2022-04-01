@@ -1,9 +1,7 @@
-import { memo, useContext } from 'react';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
+import { memo, useContext, useCallback, useMemo } from 'react';
 import DragIcon from '@mui/icons-material/DragIndicatorOutlined';
-import ListItemText from '@mui/material/ListItemText';
 import Radio from '@mui/material/Radio';
+import Typography from '@mui/material/Typography';
 import { useDrag, useDrop } from 'react-dnd';
 import { StepContext } from '../../providers/StepProvider';
 import {
@@ -11,17 +9,18 @@ import {
   SELECT_STEP,
 } from '../../providers/StepProvider/action-types';
 import { ItemTypes } from '../../ItemTypes';
-
-const style = {
-  border: '1px solid gray',
-  padding: '0.5rem 1rem',
-  marginBottom: '.5rem',
-  backgroundColor: 'white',
-  cursor: 'move',
-};
+import { StepContainer, StepDetails, useStyles } from './step.style';
 
 function Step({ Id, Name, StepOrder }) {
   const { variablesState, dispatch } = useContext(StepContext);
+  const { currentStep } = variablesState;
+
+  const classes = useStyles();
+
+  const onClickSelect = useCallback(
+    () => dispatch({ type: SELECT_STEP, payload: { Id, Name, StepOrder } }),
+    []
+  );
 
   const [{ isDragging }, drag] = useDrag(
     () => ({
@@ -30,10 +29,6 @@ function Step({ Id, Name, StepOrder }) {
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
-      end: (item, monitor) => {
-        const { Id: droppedId, StepOrder: droppedStepOrder } = item;
-        const didDrop = monitor.didDrop();
-      },
     }),
     [Id, StepOrder, dispatch]
   );
@@ -53,27 +48,33 @@ function Step({ Id, Name, StepOrder }) {
     [StepOrder, dispatch]
   );
 
-  const opacity = isDragging ? 0 : 1;
+  const opacity = useMemo(() => (isDragging ? 0 : 1), [isDragging]);
+
+  const isSelectedStep = useMemo(() => currentStep.Id === Id, [currentStep]);
+
   return (
-    <ListItem
-      button
+    <StepContainer
       ref={(node) => drag(drop(node))}
-      style={{ ...style, opacity }}
-      onClick={() =>
-        dispatch({ type: SELECT_STEP, payload: { Id, Name, StepOrder } })
-      }
+      sx={{ opacity }}
+      onClick={onClickSelect}
     >
-      <ListItemIcon>
-        <DragIcon />
-      </ListItemIcon>
-      <ListItemText primary={Name} />
-      <Radio
-        checked={variablesState.currentStep.Id === Id}
-        value={Id}
-        name="radio-buttons"
-        inputProps={{ 'aria-label': 'A' }}
-      />
-    </ListItem>
+      <DragIcon />
+      <StepDetails
+        elevation={0}
+        variant="outlined"
+        className={isSelectedStep && classes.selected}
+      >
+        <Typography variant="subtitle2" fontWeight={600}>
+          {Name}
+        </Typography>
+        <Radio
+          checked={isSelectedStep}
+          value={Id}
+          name="radio-buttons"
+          inputProps={{ 'aria-label': 'A' }}
+        />
+      </StepDetails>
+    </StepContainer>
   );
 }
 
